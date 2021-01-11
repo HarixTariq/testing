@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en" dir="ltr">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+    <script src="jquery-3.5.1.min.js"></script>
     <meta charset="utf-8">
     <title>Sign Up</title>
 </head>

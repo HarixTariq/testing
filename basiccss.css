@@ -1,0 +1,52 @@
+body{
+    background-image: url("sign-back.jpg");
+    text-align: center;
+    repeat:none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.login_box{
+    background-image: url('login.jpg');
+    margin: auto ;
+    margin-top: 320px;
+    width: 40%;
+    border: 10px solid Dodgerblue;
+    border-radius: 15px 50px;
+    text-align: center;
+    border-style: outset;
+    padding: 20px;"
+    opacity: 0.6;
+    /* float: none; */
+    /* border-right-style: groove;  */
+}
+
+.login_box:hover {
+  color: red;
+}
+
+
+.btnsub{
+
+}
+.btnsub:link{
+    color: red;
+}
+.btnsub:visited {
+  color: hotpink;
+}
+
+/* mouse over link */
+.btnsub:hover {
+  color: green;
+}
+
+/* selected link */
+.btnsub:active {
+  color: blue;
+}
+img{
+    height: auto;
+    width: auto;
+}
