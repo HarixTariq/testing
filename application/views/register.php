@@ -15,17 +15,17 @@
                     <div class="form-group">
                         <label>Enter Your Name</label>
                         <input type="text" name="user_name" class="form-control" value="<?php echo set_value('user_name'); ?>"/>
-                        <!-- <span class="text-danger"><?php echo form_error('user_name'); ?>Enter your name here </span> -->
+                        <span class="text-danger"><?php echo form_error('user_name'); ?></span>
                     </div>
                     <div class="form-group">
                         <label>Enter Your Valid Email Address</label>
-                        <input required type="email" name="user_email" class="form-control" value="<?php echo set_value('user_email'); ?>"/>
-                        <!-- <span class="text-danger"><?php echo form_error('user_email'); ?>Please enter your email</span> -->
+                        <input type="email" name="user_email" class="form-control" value="<?php echo set_value('user_email'); ?>"/>
+                        <span class="text-danger"><?php echo form_error('user_email'); ?></span>
                     </div>
                     <div class="form-group">
                         <label>Enter Your Valid Password</label>
                         <input type="password" name="user_password" class="form-control" value="<?php echo set_value('user_password'); ?>"/>
-                        <!-- <span class="text-danger"><?php echo form_error('user_password'); ?>Password Required !</span> -->
+                        <span class="text-danger"><?php echo form_error('user_password'); ?></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" name="register" value="Register" class="btn btn-info" />

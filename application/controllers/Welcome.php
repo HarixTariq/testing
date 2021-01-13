@@ -22,8 +22,8 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
-	public function main()
-	{
-		$this->load->view('register');
-	}
+	// public function main()
+	// {
+	// 	$this->load->view('register');
+	// }
 }
