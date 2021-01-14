@@ -31,8 +31,11 @@
                         </div>
                         <div class="form-group">
                             <input type="submit" name="login" value="Login" class="btn btn-info">
+                            <div style="float:right">
+                                <span>Create a new account</span>
+                                <a href="<?php echo base_url(); ?>index.php/register">Register</a>
+                            </div>
                         </div>
-                        <a href="<?php echo base_url(); ?>index.php/register">Register</a>
                     </form>
 
 
