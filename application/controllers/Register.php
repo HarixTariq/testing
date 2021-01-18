@@ -10,7 +10,8 @@ class Register extends CI_Controller{
             redirect('Home');
         }
         $this->load->library('form_validation');
-        $this->load->model('register_model');
+        $this->load->model('user_model');                                  //MODEL
+        //$this->load->model('home_model');
     }
 
     function index(){
@@ -28,7 +29,7 @@ class Register extends CI_Controller{
                 'password'  =>  $this->input->post('user_password'),
                 'verification_key'  => $verification_key
             );
-            $id = $this->register_model->insert($data);
+            $id = $this->user_model->insert($data);                        //MODEL
             if($id > 0){
                 $this->session->set_userdata('id',$id);
                 $this->session->set_userdata('namedisplay',$this->input->post('user_name'));

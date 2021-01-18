@@ -9,7 +9,8 @@ class Login extends CI_Controller{
             redirect('Home');
         }
         $this->load->library('form_validation');
-        $this->load->model('login_model');
+        //$this->load->model('login_model');                     //MODEL
+        $this->load->model('user_model');
     }
     function index()
     {
@@ -21,10 +22,9 @@ class Login extends CI_Controller{
         $this->form_validation->set_rules('user_password','Password','required');
         if ($this->form_validation->run())
         {
-            $result = $this->login_model->can_login($this->input->post('user_email'),$this->input->post('user_password'));
+            $result = $this->user_model->can_login($this->input->post('user_email'),$this->input->post('user_password')); //MODEL
             if ($result == 'match password successfully') {
                 redirect('Home');
-
             } else {
                 $this->session->set_flashdata('message',$result);
                 redirect('login');

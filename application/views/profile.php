@@ -4,34 +4,16 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <title>Home Page</title>
-    <script>
-    function removereadonly()
-    {
-        $(".rdonly").removeAttr("readonly");
-        $(".saveb").show();
-        $(".cancelb").show();
-        $(".editb").hide();
-    }
-    function showreadonly()
-    {
-        $(".rdonly").prop("readonly",true);
-        $(".saveb").hide();
-        $(".cancelb").hide();
-        $(".editb").show();
-    }
-    // function savedata()
-    // {
-    //     parent.location='<?php echo site_url('profile/updatedata') ;?>';
-    // }
-    </script>
+    <title>Profile Page</title>
 </head>
-<body>
+<body style="background-color:grey;">
     <?php  $nam = $this->session->userdata('namedisplay'); ?>
     <h3 algin="center">  </h3>
     <div class="container"><br>
 
-        <?php  echo '<h3 align="center"> Welcome '.$nam.' </h3>'?>
+        <?php  $nam = $this->session->userdata('namedisplay'); ?>
+        <h2 align="center" style = "color:blue;font-family:sansserif;font-style:italic;color:black;"> Welcome <?php echo $nam;?> </h2>
+
         <div class="panel panel-default">
             <div class="panel-heading">Your Profile</div>
             <div class="panel-body">
@@ -49,15 +31,69 @@
                         <label>Enter Your Valid Password</label>
                         <input readonly required type="text" name="user_password" class="form-control rdonly" value="<?php echo $password ?>"/>
                     </div>
+                    <!-- <div class="form-group">
+                        <img src="<?php echo base_url($image) ?>" alt="hahahaha  ">
+                    </div> -->
                     <div class="form-group">
                         <input type="submit" style="display:none"  value="Save" class="btn btn-info saveb" onclick="savedata()"/>
                         <input type="button"  value="Edit" class="btn btn-info editb" onclick="removereadonly()" />
                         <input type="button" style="display:none" value="Cancel" class="btn btn-danger cancelb" onclick="showreadonly()"/>
-                        <input type="button" class="btn btn-primary" name="back" value="Back" onclick="parent.location='<?php echo site_url('home') ;?>'"/>
+                        <input type="button" class="btn btn-primary back" name="back" value="Back" onclick="parent.location='<?php echo site_url('home') ;?>'"/>
                     </div>
                 </form>
+                <div class="container" align="right"><br><br>
+                    <h3 align="center">Upload Image</h3>
+                    <form method="post" id="upload_form" align="center" enctype="multipart/form-data">
+                        <input type="file" name="image_file" id="image_file" />
+                        <input type="submit" name="upload" id="upload" value="Upload" class="btn btn-info" />
+                    </form>
+                    <div id="uploaded_image">
+                    </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+<script>
+function removereadonly()
+{
+    $(".rdonly").removeAttr("readonly");
+    $(".saveb").show();
+    $(".cancelb").show();
+    $(".editb").hide();
+    $(".back").hide();
+}
+function showreadonly()
+{
+    $(".rdonly").prop("readonly",true);
+    $(".saveb").hide();
+    $(".cancelb").hide();
+    $(".editb").show();
+    $(".back").show();
+}
+
+$(document).ready(function(){
+    $('#upload_form').on('submit',function(ev){
+        ev.preventDefault();
+        if($('#image_file').val() == '')
+        {
+            alert("Please select the file");
+        }
+        else
+        {
+            $.ajax({
+                url:"<?php echo site_url('profile/ajax_upload'); ?>",
+                method:"POST",
+                data:new FormData(this),
+                contentType:false,
+                cache:false,
+                processData:false,
+                success:function(data)
+                {
+                    $('#uploaded_image').html(data);
+                }
+            });
+        }
+    });
+});
+</script>

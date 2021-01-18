@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct acces to home page');
 
- class Home extends CI_Controller
- {
-
+class Home extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('home_model');
+        //$this->load->model('home_model');                                   //MODEL
+        $this->load->model('user_model');
         if(!$this->session->userdata('id'))
         {
             redirect('login');
@@ -15,12 +15,9 @@ defined('BASEPATH') OR exit('No direct acces to home page');
     }
     function index()
     {
-        $this->load->view('home');
-        // $nam = $this->session->userdata('namedisplay');
-        // echo '<h3 algin="center"> Welcome '.$nam.' </h3>';
-        // echo '<h2 align="right" style = "padding-top:700px; padding-right:200px;"><a href="'.base_url().'index.php/home/logout">Logout</a></h2>';
-        // echo '<h2 align="right" style = "padding-right:200px;"><a href="'.base_url().'index.php/profile">Show Profile</a></h2>';
-
+        $getdata = array();
+        $getdata = $this->user_model->get_data();
+        $this->load->view('home',$getdata);
     }
     function logout()
     {
@@ -29,47 +26,32 @@ defined('BASEPATH') OR exit('No direct acces to home page');
         {
             $this->session->unset_userdata($row);
         }
-        redirect ('login');
+        redirect ('login');                                                   //REDIRECT
     }
-    function upload_file()
+    function ajax_upload()
     {
-        die('llllllllllllllllllll');
-        $config['upload_path']   = './files/';
-        $config['allowed_types'] = 'gif|jpg|png|doc|txt';
-        $config['max_size']      = 100;
-        $config['max_width']     = 1024;
-        $config['max_height']    = 768;
-        $config['encrypt_name']  = TRUE;
-
-        $this->load->library('upload', $config);
-
-        if(!$this->upload->do_upload('userfile'))
+        if (isset($_FILES["image_file"]["name"]))
         {
-            echo ("Cant upload the picture");
-            $status = 'error';
-            $msg = $this->upload->display_errors('', '');
-        }
-        else
-        {
-            $data = $this->upload->data();
-            $file_id = $this->files_model->insert_file($data['file_name']);
-            if($file_id == "data updated")
+            $config['upload_path'] = './upload/';
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '3000';
+            $this->load->library('upload',$config);
+            // die("iamageeeeeeeeeeeee0");
+            $image = $_FILES['image_file']['name'];
+            $dataimage = array(     'image' => 'upload/'.$image, ); //$data["file_name"] == $image; //ERRO !
+            if(!$this->upload->do_upload('image_file'))
             {
-                $status = "success";
-                $msg = "File successfully uploaded";
-                echo($msg);
+                echo $this->upload->display_errors();
             }
             else
             {
-                $status = "error";
-                $msg = "Something went wrong when saving the file, please try again.";
-                echo($msg);
+                $data = $this->upload->data();
+                //echo base_url().'upload/'.$data["file_name"] ;
+                $dataimage = $this->user_model->uploadData($dataimage);         //MODEL
+                echo '<img src ="upload/'.$data["file_name"].'" />';
+                echo json_encode($dataimage);
             }
         }
     }
- }
-
-
-
-
- ?>
+}
+?>

@@ -11,22 +11,23 @@ class Profile extends CI_Controller
             redirect('login');
         }
         $this->load->library('form_validation');
-        $this->load->model('profile_model');
-
+        //$this->load->model('profile_model');                           //MODEL
+        $this->load->model('user_model');
     }
     function index()
     {
         $getdata = array();
-        $getdata = $this->profile_model->get_data();
+        $getdata = $this->user_model->get_data();                   //MODEL
         $this->load->view('profile',$getdata);
     }
     function updatedata()
     {
         $this->form_validation->set_rules('user_name','Name','required|trim');
-        $this->form_validation->set_rules('user_email','Email Address','required|trim|valid_email|is_unique[codetable.email]');
+        $this->form_validation->set_rules('user_email','Email Address','required');
         $this->form_validation->set_rules('user_password','Password','required');
-        if ($this->form_validation->run()) {
-            // die("aaaaaaaaaaaaaaaaaa");
+        if ($this->form_validation->run())
+        {
+            //die("aaaaaaaaaaaaaaaaaa");
             $verification_key = md5(rand());
             $udata = array(
                 'Name'      =>  $this->input->post('user_name'),
@@ -34,7 +35,7 @@ class Profile extends CI_Controller
                 'password'  =>  $this->input->post('user_password'),
                 'Verification_key'  => $verification_key
             );
-            $id = $this->profile_model->update_data($udata);
+            $id = $this->user_model->update_data($udata);             //MODEL
             if ($id == "data updated")
             {
                 $this->index();
@@ -49,5 +50,35 @@ class Profile extends CI_Controller
             $this->index();
         }
     }
+    function ajax_upload()
+    {
+        if (isset($_FILES["image_file"]["name"]))
+        {
+            $config['upload_path'] = './upload/';
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '3000';
+            $this->load->library('upload',$config);
+            // die("iamageeeeeeeeeeeee0");
+            $image = $_FILES['image_file']['name'];
+            $dataimage = array(     'image' => 'upload/'.$image, ); //$data["file_name"] == $image; //ERRO !
+            if(!$this->upload->do_upload('image_file'))
+            {
+                echo $this->upload->display_errors();
+            }
+            else
+            {
+                //$data = $this->upload->data();
+                //echo base_url().'upload/'.$data["file_name"] ;
+                $dataimage = $this->user_model->uploadData($dataimage);         //MODEL
+
+                echo json_encode($dataimage);
+            }
+        }
+    }
+    // public function viewImage()
+    // {
+    //     $this->profile_model->getImages();
+    //
+    // }
 }
 ?>

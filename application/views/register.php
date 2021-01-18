@@ -2,12 +2,12 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Complete User Registration and login System in COdeignitor</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
-<body>
+<body style="background-color:black">
     <div class="container"><br>
-        <h3 align="center"> Complete User Registration and login System in COdeignitor </h3> <br>
+        <h1 align="center" style="color:white"> Registration </h1> <br>
         <div class="panel panel-default">
             <div class="panel-heading">Register</div>
             <div class="panel-body">
@@ -29,17 +29,14 @@
                     </div>
                     <div class="form-group">
                         <input type="submit" name="register" value="Register" class="btn btn-info" />
-                            <div style="float:right">
-                                <span>Already have a account?</span>
-                                <a href="<?php echo base_url(); ?>index.php/login">Login</a>
-                            </div>
+                        <div style="float:right">
+                            <span>Already have a account?</span>
+                            <a href="<?php echo site_url('login'); ?>">Login</a>
+                        </div>
                     </div>
                 </form>
-
             </div>
-
         </div>
     </div>
-
 </body>
 </html>
