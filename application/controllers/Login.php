@@ -8,6 +8,7 @@ class Login extends CI_Controller{
         {
             redirect('Home');
         }
+        
         $this->load->library('form_validation');
         //$this->load->model('login_model');                     //MODEL
         $this->load->model('user_model');

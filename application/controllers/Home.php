@@ -10,6 +10,7 @@ class Home extends CI_Controller
         $this->load->model('user_model');
         if(!$this->session->userdata('id'))
         {
+            echo '<script>alert("Cant access the page directly");</script>';
             redirect('login');
         }
     }

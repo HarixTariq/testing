@@ -2,7 +2,7 @@
 class User_model extends CI_Model{
     //-----------------------------REGISTER_MODEL-------------------------
     function insert($data){
-        $this->db->insert('codetable',$data);
+        $this->db->insert('user',$data);
         return $this->db->insert_id();
     }
     //-----------------------------PROFILE_MODEL--------------------------
@@ -10,9 +10,9 @@ class User_model extends CI_Model{
     {
             $id = $this->session->userdata('id');
             $this->db->where('id', $id);
-            $query = $this->db->get('codetable');  // Produces: SELECT * FROM mytable
+            $query = $this->db->get('user');  // Produces: SELECT * FROM mytable
 
-            //$query = $this->db->query("SELECT * FROM codetable where ID = '$id'");
+            //$query = $this->db->query("SELECT * FROM user where ID = '$id'");
             if($query->num_rows() > 0)
             {
                 foreach ($query->result() as $row)
@@ -33,7 +33,7 @@ class User_model extends CI_Model{
     {
         $id = $this->session->userdata('id');
         $this->db->where('id', $id);
-        $this->db->update('codetable', $data1);
+        $this->db->update('user', $data1);
         $updated_status = $this->db->affected_rows();
         if($updated_status)
         {
@@ -49,7 +49,7 @@ class User_model extends CI_Model{
     //---------------------LOGIN_MODEL------------------------
     function can_login($email, $passord)
     {
-        $query = $this->db->query("SELECT * FROM codetable where Email = '$email'");
+        $query = $this->db->query("SELECT * FROM user where Email = '$email'");
         if($query->num_rows() > 0)
         {
             foreach($query->result() as $row)
@@ -79,7 +79,7 @@ class User_model extends CI_Model{
     {
         $id = $this->session->userdata('id');
           $this->db->where('ID', $id);
-          $this->db->update('codetable', $dataimage);
+          $this->db->update('user', $dataimage);
           $updated_status = $this->db->affected_rows();
               if($updated_status > 0)
               {
@@ -90,6 +90,33 @@ class User_model extends CI_Model{
               {
                   return "Not Updated";
               }
+    }
+    //----------------------------Add Friend-------------------
+    public function getallusers()
+    {
+        $query = $this-> db->get('user');
+        return $query->result();
+    }
+    public function addingFriend($freindid)
+    {
+        $id = $this->session->userdata('id');
+        $data = array(
+            'userid' => $id,
+            'friendid'=> $friendid
+        );
+        $this->db->insert('friends',$data);
+        // $this->db->where('userid', $id);
+        // $this->db->update('friends', $friendid);
+        $updated_status = $this->db->insert_id();
+            if($updated_status > 0)
+            {
+                // die("aaaaaaaaaaaaazzzzsssa");
+                return "You are now a freind";
+            }
+            else
+            {
+                return "You are not a freind";
+            }
     }
 }
 ?>

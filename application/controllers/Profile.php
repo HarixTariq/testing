@@ -22,7 +22,7 @@ class Profile extends CI_Controller
     }
     function updatedata()
     {
-        $this->form_validation->set_rules('user_name','Name','required|trim');
+        $this->form_validation->set_rules('user_name','Name','required|trim|is_unique[user.name]');
         $this->form_validation->set_rules('user_email','Email Address','required');
         $this->form_validation->set_rules('user_password','Password','required');
         if ($this->form_validation->run())
@@ -33,7 +33,8 @@ class Profile extends CI_Controller
                 'Name'      =>  $this->input->post('user_name'),
                 'Email'     =>  $this->input->post('user_email'),
                 'password'  =>  $this->input->post('user_password'),
-                'Verification_key'  => $verification_key
+                'Verification_key'  => $verification_key,
+                'image'     =>  $this->input->post('')
             );
             $id = $this->user_model->update_data($udata);             //MODEL
             if ($id == "data updated")
@@ -52,6 +53,7 @@ class Profile extends CI_Controller
     }
     function ajax_upload()
     {
+        die("aabcbcccccccccccccccc");
         if (isset($_FILES["image_file"]["name"]))
         {
             $config['upload_path'] = './upload/';
@@ -75,10 +77,5 @@ class Profile extends CI_Controller
             }
         }
     }
-    // public function viewImage()
-    // {
-    //     $this->profile_model->getImages();
-    //
-    // }
 }
 ?>

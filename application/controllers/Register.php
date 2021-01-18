@@ -19,7 +19,7 @@ class Register extends CI_Controller{
     }
     function validation(){
         $this->form_validation->set_rules('user_name','Name','required|trim');
-        $this->form_validation->set_rules('user_email','Email Address','required|trim|valid_email|is_unique[codetable.email]');
+        $this->form_validation->set_rules('user_email','Email Address','required|trim|valid_email|is_unique[user.email]');
         $this->form_validation->set_rules('user_password','Password','required');
         if ($this->form_validation->run()) {
             $verification_key = md5(rand());

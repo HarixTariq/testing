@@ -75,12 +75,14 @@ function showreadonly()
 $(document).ready(function(){
     $('#upload_form').on('submit',function(ev){
         ev.preventDefault();
+        debugger;
         if($('#image_file').val() == '')
         {
             alert("Please select the file");
         }
         else
         {
+
             $.ajax({
                 url:"<?php echo site_url('profile/ajax_upload'); ?>",
                 method:"POST",
@@ -90,6 +92,7 @@ $(document).ready(function(){
                 processData:false,
                 success:function(data)
                 {
+                    debugger;
                     $('#uploaded_image').html(data);
                 }
             });
