@@ -1,7 +1,15 @@
 <?php
 $this->load->view('header.php');
-        foreach($result as $row){ ?>
-            <button onclick="add_friend(<?= $row->ID?>)" class='friendbutton'  ><?=$row->Name?></button><br><br>
+        foreach($result as $row){
+            $skipid = $this->session->userdata('id');
+            if ($skipid == $row->ID)
+            {
+                continue;
+            }
+            ?>
+            <label><?=$row->Name?></label>
+            <input type="button" onclick="add_friend(<?= $row->ID?>)" class='friendbutton' value="Add Freind" />
+            <br><br>
         <?php
     }
     //
@@ -14,13 +22,13 @@ function add_friend(user_id)
         $.ajax({
             url:"<?php echo site_url('addfriend/adding_friend'); ?>",
             method:"POST",
-            data:{userId:user_id},
+            data:{"userId":user_id},
             //contentType:false,
             cache:false,
             //processData:false,
-            success:function(data1)
+            success:function(data)
             {
-                    alert(data1);
+                    alert("Now a friend");
             }
         });
 }

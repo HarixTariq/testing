@@ -9,6 +9,7 @@ class User_model extends CI_Model{
     function get_data()
     {
             $id = $this->session->userdata('id');
+            //$this->db->select('friendid');
             $this->db->where('id', $id);
             $query = $this->db->get('user');  // Produces: SELECT * FROM mytable
 
@@ -97,7 +98,7 @@ class User_model extends CI_Model{
         $query = $this-> db->get('user');
         return $query->result();
     }
-    public function addingFriend($freindid)
+    public function addingFriend($friendid)
     {
         $id = $this->session->userdata('id');
         $data = array(
@@ -117,6 +118,49 @@ class User_model extends CI_Model{
             {
                 return "You are not a freind";
             }
+    }
+    // public function friend_list()
+    // {
+    //         // $id = $this->session->userdata('id');
+    //         // $this->db->select('user.Name');
+    //         // $this->db->from('user','friends');
+    //         // $this->db->join('friends','user.ID = friends.friendid','left');
+    //         // //$this->db->where();
+    //         // $query = $this-> db->get();
+    //         // return $query->result();
+    // }
+    public function savingPostdata($postdata)
+    {
+        $id = $this->session->userdata('id');
+        $data = array(
+            'userid' => $id,
+            'text'=> $postdata
+        );
+        $this->db->insert('user_post',$data);
+        // $this->db->select('*');
+        // $this->db->from('user_post');
+        // $this->db->where('userid',$id);
+        // $this->db->order_by("date","asc");
+        // $query = $this->db->get();
+        // return $query->result();
+    }
+    public function showingpost()
+    {
+        $id = $this->session->userdata('id');
+        $this->db->select('*');
+        $this->db->from('user_post');
+        $this->db->where('userid',$id);
+        $this->db->order_by("date","asc");
+        $query = $this->db->get();
+        // foreach ($query->result() as $row)
+        // {
+        //     $data = array();
+        //         $data['postid']      =  $row->postid;
+        //         $data['userid']     =  $row->userid;
+        //         $data['date']  =  $row->date;
+        //         $data['text']     =  $row->text;
+        // }
+        return $query->result();
     }
 }
 ?>

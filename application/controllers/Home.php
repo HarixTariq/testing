@@ -17,8 +17,9 @@ class Home extends CI_Controller
     function index()
     {
         $getdata = array();
-        $getdata = $this->user_model->get_data();
-        $this->load->view('home',$getdata);
+        $data['image'] =  $this->user_model->get_data();
+        $data['posts'] = $this->user_model->showingpost();
+        $this->load->view('home',$data);
     }
     function logout()
     {
@@ -53,6 +54,18 @@ class Home extends CI_Controller
                 echo json_encode($dataimage);
             }
         }
+    }
+    function postData()
+    {
+        $postdata = $this->input->post('posttext');
+        $data = $this->user_model->savingPostdata($postdata);
+
+
+        echo json_encode($data);
+    }
+    function showingpost()
+    {
+
     }
 }
 ?>

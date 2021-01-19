@@ -92,7 +92,7 @@ $(document).ready(function(){
                 processData:false,
                 success:function(data)
                 {
-                    debugger;
+                    //debugger;
                     $('#uploaded_image').html(data);
                 }
             });

@@ -21,10 +21,8 @@ class Addfriend extends CI_Controller
     }
     public function adding_friend()
     {
-        $data = $this->input->post();
-        die($data->user_id.value());
-        $this->user_model->addingFriend($id);
-
+        $uid = $this->input->post('userId');
+        $this->user_model->addingFriend($uid);
     }
 
 }

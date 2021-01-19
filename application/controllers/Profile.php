@@ -53,7 +53,7 @@ class Profile extends CI_Controller
     }
     function ajax_upload()
     {
-        die("aabcbcccccccccccccccc");
+        //die("aabcbcccccccccccccccc");
         if (isset($_FILES["image_file"]["name"]))
         {
             $config['upload_path'] = './upload/';
