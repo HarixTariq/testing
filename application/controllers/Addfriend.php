@@ -16,7 +16,7 @@ class Addfriend extends CI_Controller
     function index()
     {
         $getdata = array();
-        $getdata['result'] = $this->user_model->getallusers();
+        $getdata['result'] = $this->user_model->getnotfriends();
         $this->load->view('addfriend',$getdata);
     }
     public function adding_friend()

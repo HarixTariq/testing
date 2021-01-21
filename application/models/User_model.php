@@ -144,5 +144,45 @@ class User_model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+    //savingCommentdata
+    public function savingCommentdata($commentdata,$post_id)
+    {
+        $id = $this->session->userdata('id');
+        $data = array(
+            'userid' => $id,
+            'postid' => $post_id,
+            'text'=> $commentdata,
+            'parent_id' => 'id'
+        );
+        $this->db->insert('post_comment',$data);
+    }
+    public function get_comments()
+    {
+        $query = $this-> db->get('post_comment');
+        return $query->result();
+    }
+    public function getnotfriends()
+    {
+        // $id = $this->session->userdata('id');
+        // $this->db->select('u.*');
+        // $this->db->from('user u');
+        // $this->db->join('friends f', "f.friendid=u.ID");
+        // $this->db->where('f.userid =',$id);
+        // $this->db->where('f.friendid !=',$id);
+        //$this->db->where('u.ID ',$id);
+        $query = $this-> db->get('user');
+        return $query->result();
+    }
+    public function savingReplydata($post_id,$comment_id,$reply)
+    {
+        $id = $this->session->userdata('id');
+        $data = array(
+            'userid' => $id,
+            'postid' => $post_id,
+            'text'=> $reply,
+            'parent_id' => $comment_id
+        );
+        $this->db->insert('post_comment',$data);
+    }
 }
 ?>

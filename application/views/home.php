@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" > -->
     <title>Home Page</title>
 </head>
 <body style="background-color:dodgerblue;">
@@ -14,22 +14,46 @@
             <?php  $nam = $this->session->userdata('namedisplay'); ?>
             <h2 align="cener" style = "color:blue;font-family:sansserif;font-style:italic;color:black;"> Welcome <?php echo $nam;?> </h2>
             <div class="form-group" >
-                <img style="border-radius:20px 100px;" src="<?php echo base_url($getdata['image']) ?>" alt="Your profile picture is not set yet,please visit profile page to update picture">
+                <img style="border-radius:20px 100px;width:300px;height:300px;" src="<?php echo base_url($getdata['image']) ?>" alt="Your profile picture is not set yet,please visit profile page to update picture">
             </div>
         </div>
         <div class="col-md-4" >
-            <input type="text" id="data_of_post" style="width:250px;border-radius:20px;">
+            <input type="text" id="data_of_post" style="width:250px;border-radius:20px;margin:10px;padding:13px;border:black;">
             <input type="button"  onclick="functionPost()" class='postbutton btn btn-primary' value="Post" /><br><br>
             <p class="showPost">
                 <?php
-                foreach ($abc as $key)
-                {
-                    echo "<th>Date</th>";
-                    echo "<td> $key->date</td><br>";
-                    echo "<th>Post</th>";
-                    echo "<td><strong> $key->text</strong></td><br>";
-                    echo "<input type='text' id='data_of_comment' class='form-control' style='width:350px;' >";
-                    echo "<input type='button' style='border-radius: 12px;' onclick='functionComment()' class='commentbutton btn btn-success' value='Comment' /><br><br>";
+                foreach ($abc as $post)
+                {?>
+                    <th>Date</th>
+                    <td><?= $post->date?></td><br>
+                    <!-- <th>Post</th> -->
+                    <h1 style="font-family: fantasy;"><strong><?= $post->text?></strong></h1><br>
+                    <?php  foreach ($comments as $comment)
+                    {
+                        if( $post->postid == $comment->postid && $comment->parent_id == 0)
+                        {?>
+                            <?php echo "<label>".$names[$comment->userid]. "</label>";
+                            echo " Commented on above post <br> ";?>
+                            <!-- <dt>Comment</dt> -->
+                            <h4 style="color:#5fe;background-color:#1E88E5;padding-left:20px" ><?=  $comment->text?></h4><br>
+                            <?php foreach ($replies as $reply)
+                            {
+                                if( $comment->id == $reply->parent_id)
+                                {
+                                    echo "<h6 style='padding-left:60px'>".$names[$reply->userid]. " Replied of " .$names[$comment->userid]."</h6>";
+                                    //echo " Replied <br> ";
+                                    //echo "<dt>reply</dt>";
+                                    echo "<h5 style='color:#B71C1C;padding-left:60px;' > $reply->text</h5><br>";
+                                }
+                            }
+                            echo "<input type='text' id='reply_$comment->id' class='form-control' style='width:350px;' placeholder='Reply ...'>";
+                            echo "<input id='id_of_post_forreply' type='hidden' value='$post->postid' />";
+                            echo "<input type='button' style='border-radius: 12px;' onclick='functionreply(".$comment->id.")' class='btn btn-danger' value='Reply' /><br><br>";
+                        }
+                    }
+                    echo "<input type='text' id='comment_$post->postid' class='form-control' style='width:350px;' >";
+                    echo "<input id='id_of_post' type='hidden' value='$post->postid' />";
+                    echo "<input type='button' style='border-radius: 12px;' onclick='functionComment(".$post->postid.")' class='commentbutton btn btn-success' value='Comment' /><br><br>";
                 }
                  ?>
 
@@ -54,7 +78,7 @@ function functionPost()
 {
     if($('#data_of_post').val() == '')
     {
-        //alert("Please enter some text");
+        alert("Please enter some text");
     }
     else
     {
@@ -68,6 +92,36 @@ function functionPost()
             cache:false,
             success:function(data)
             {
+                window.location.reload(true);
+            }
+        });
+    }
+}
+function functionComment(post_id)
+{
+    let commenttext = $('#comment_'+post_id).val().trim();
+    if(commenttext == '')
+    {
+        alert("Please enter some text");
+    }
+    else
+    {
+        // var commenttext = document.getElementById('data_of_comment').value;
+        // var post_id = document.getElementById('id_of_post').value;
+        //document.getElementById('data_of_comment').value = '';
+        //var commenttext = $('#data_of_comment').val();
+        //var post_id = $('#id_of_post').val();
+        //console.log(post_id);
+        //document.getElementById('comment_'post_id'').value = '';
+        $.ajax({
+            url:"<?php echo site_url('home/commentData'); ?>",
+            method:"POST",
+            datatype:"json",
+            data:{"commenttext":commenttext,"post_id":post_id},
+            cache:false,
+            success:function(data)
+            {
+                window.location.reload(true);
                 //var posttext1=$('#data_of_post').val();
                 //posttext1='';
                 //$('#showPost').html(val);
@@ -75,30 +129,30 @@ function functionPost()
         });
     }
 }
-// function functionComment()
-// {
-//     if($('#data_of_comment').val() == '')
-//     {
-//         alert("Please enter some text");
-//     }
-//     else
-//     {
-//         var commenttext = $('#data_of_comment').val();
-//         document.getElementById('data_of_comment').value = '';
-//         $.ajax({
-//             url:"<?php echo site_url('home/commentData'); ?>",
-//             method:"POST",
-//             datatype:"json",
-//             data:{"commenttext":commenttext},
-//             cache:false,
-//             success:function(data)
-//             {
-//                 //var posttext1=$('#data_of_post').val();
-//                 //posttext1='';
-//                 //$('#showPost').html(val);
-//             }
-//         });
-//     }
-// }
+function functionreply(comment_id)
+{
+    let replytext = $('#reply_'+comment_id).val();
+    debugger;
+    if(replytext == '')
+    {
+        alert("Please enter some text");
+    }
+    else
+    {
+        var post_id = document.getElementById('id_of_post_forreply').value;
+        $.ajax({
+            url:"<?php echo site_url('home/replyData'); ?>",
+            method:"POST",
+            datatype:"json",
+            data:{"replytext":replytext,"comment_id":comment_id, "post_id":post_id},
+            cache:false,
+            success:function(data)
+            {
+                window.location.reload(true);
+            }
+        });
+    }
+}
+
 
 </script>

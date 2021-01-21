@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label>Enter Your Valid Password</label>
-                        <input readonly required type="text" name="user_password" class="form-control rdonly" value="<?php echo $password ?>"/>
+                        <input readonly required type="password" name="user_password" class="form-control rdonly" value="<?php echo $password ?>"/>
                     </div>
                     <!-- <div class="form-group">
                         <img src="<?php echo base_url($image) ?>" alt="hahahaha  ">

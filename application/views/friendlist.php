@@ -11,7 +11,7 @@
         <label> <?=$friend->Name;?> </label><br>
 
         <h2 align="center" style = "border-radius:10px 15px;background-color:black;width:167px;height:40px">
-            <a style="color:white;" href="<?php echo site_url('friendprofile/showprofile').'/'.$friend->friendid ;?>">Show Profile</a>
+            <a style="color:white;" href="<?php echo site_url('friendprofile/showprofile').'/'.$friend->ID ;?>">Show Profile</a>
         </h2>
         <?php
     }
