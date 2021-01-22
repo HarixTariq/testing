@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Friendprofile extends CI_Controller
+class Forfriend extends CI_Controller
 {
     public function __construct()
     {
@@ -12,10 +12,8 @@ class Friendprofile extends CI_Controller
         }
         $this->load->model('friend_model');
     }
-
     function index()
     {
-        // $data['comments'] = $this->friend_model->get_comments();
         $this->load->view('friendprofile');
     }
     public function showprofile($user_id)
@@ -34,7 +32,6 @@ class Friendprofile extends CI_Controller
     }
     function commentData()
     {
-        //die("aaaaaaaaaaaaaaa");
         $comment = $this->input->post('commenttext');
         $post_id = $this->input->post('post_id');
         $data = $this->friend_model->savingCommentdata($comment,$post_id);
@@ -47,6 +44,23 @@ class Friendprofile extends CI_Controller
         $post_id = $this->input->post('post_id');
         $data = $this->friend_model->savingReplydata($post_id,$comment_id,$reply);
         echo json_encode($data);
+    }
+    public function adding_friend()
+    {
+        $uid = $this->input->post('userId');
+        $this->friend_model->addingFriend($uid);
+    }
+    function showsuggestion()
+    {
+        $getdata = array();
+        $getdata['result'] = $this->friend_model->getnotfriends();
+        $this->load->view('addfriend',$getdata);
+    }
+    function showmyfriend()
+    {
+        $getdata = array();
+        $getdata['list'] = $this->friend_model->friend_list();
+        $this->load->view('friendlist',$getdata);
     }
 }
 ?>

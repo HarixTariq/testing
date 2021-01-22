@@ -3,29 +3,19 @@ class Friend_model extends CI_Model{
     public function friend_list()
     {
             $id = $this->session->userdata('id');
-            // $this->db->select('user.Name');
-            // $this->db->from('user','friends');
-            // $this->db->join('friends','user.ID = friends.friendid','left');
-            //$this->db->where();
-            $this->db->select('u.*'); // <-- There is never any reason to write this line!
+            $this->db->select('u.*');
             $this->db->from('user u');
-            //$this->db->join('friends','friends.userid = $id');
             $this->db->join('friends f', "f.friendid=u.ID");
             $this->db->where('f.userid',$id);
             $this->db->or_where('f.friendid',$id);
             $this->db->where('u.ID !=',$id);
-            //$this->db->or_where('select f.userid where f.friendid= u.ID');
             $query = $this-> db->get();
             return $query->result();
     }
     function get_data($id)
     {
-            //$id = $this->session->userdata('id');
-            //$this->db->select('friendid');
             $this->db->where('id', $id);
-            $query = $this->db->get('user');  // Produces: SELECT * FROM mytable
-
-            //$query = $this->db->query("SELECT * FROM user where ID = '$id'");
+            $query = $this->db->get('user');
             if($query->num_rows() > 0)
             {
                 foreach ($query->result() as $row)
@@ -44,8 +34,6 @@ class Friend_model extends CI_Model{
     }
     public function showingpost($id)
     {
-        //$id = $this->session->userdata('id');
-        $this->db->select('*');
         $this->db->from('user_post');
         $this->db->where('userid',$id);
         $this->db->order_by("date","desc");
@@ -84,12 +72,26 @@ class Friend_model extends CI_Model{
         );
         $this->db->insert('post_comment',$data);
     }
-    // public function get_reply()
-    // {
-    //     $this-> db->get('post_comment');
-    //     $this-> db->where('');
-    //     return $query->result();
-    // }
+    public function getnotfriends()
+    {
 
+        $query = $this-> db->get('user');
+        return $query->result();
+    }
+    public function addingFriend($friendid){
+        $id = $this->session->userdata('id');
+        $data = array(
+            'userid' => $id,
+            'friendid'=> $friendid
+        );
+        $this->db->insert('friends',$data);
+
+        $updated_status = $this->db->insert_id();
+            if($updated_status > 0){
+                return "You are now a freind";
+            }else{
+                return "You are not a freind";
+            }
+    }
 }
  ?>

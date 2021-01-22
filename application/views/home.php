@@ -1,57 +1,56 @@
+<?php $this->load->view('header.php'); ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" > -->
     <title>Home Page</title>
 </head>
-<body style="background-color:dodgerblue;">
+<body class = "home_body">
     <div>
         <!-- <div class="container" > -->
         <div class="col-md-4" >
             <?php  $nam = $this->session->userdata('namedisplay'); ?>
-            <h2 align="cener" style = "color:blue;font-family:sansserif;font-style:italic;color:black;"> Welcome <?php echo $nam;?> </h2>
+            <h2 align="cener" class = "user_heading" > Welcome <?php echo $nam;?> </h2>
             <div class="form-group" >
-                <img style="border-radius:20px 100px;width:300px;height:300px;" src="<?php echo base_url($getdata['image']) ?>" alt="Your profile picture is not set yet,please visit profile page to update picture">
+                <img class="home_image" src="<?php echo base_url($getdata['image']) ?>" alt="Your profile picture is not set yet,please visit profile page to update picture">
             </div>
         </div>
         <div class="col-md-4" >
-            <input type="text" id="data_of_post" style="width:250px;border-radius:20px;margin:10px;padding:13px;border:black;">
+            <input type="text" id="data_of_post" >
             <input type="button"  onclick="functionPost()" class='postbutton btn btn-primary' value="Post" /><br><br>
             <p class="showPost">
                 <?php
                 foreach ($abc as $post)
                 {?>
+                    <div class="post_text_box" align="center">
                     <th>Date</th>
                     <td><?= $post->date?></td><br>
                     <!-- <th>Post</th> -->
-                    <h1 style="font-family: fantasy;"><strong><?= $post->text?></strong></h1><br>
+                    <h1 class="post_text"><strong><?= $post->text?></strong></h1><br>
+                    </div>
                     <?php  foreach ($comments as $comment)
                     {
                         if( $post->postid == $comment->postid && $comment->parent_id == 0)
                         {?>
-                            <?php echo "<label>".$names[$comment->userid]. "</label>";
-                            echo " Commented on above post <br> ";?>
+                            <?php echo "<label>".$names[$comment->userid]. " Commented on above post <br></label>";?>
                             <!-- <dt>Comment</dt> -->
-                            <h4 style="color:#5fe;background-color:#1E88E5;padding-left:20px" ><?=  $comment->text?></h4><br>
+                            <h4 class="comment_text" ><?=  $comment->text?></h4><br>
                             <?php foreach ($replies as $reply)
                             {
                                 if( $comment->id == $reply->parent_id)
                                 {
-                                    echo "<h6 style='padding-left:60px'>".$names[$reply->userid]. " Replied of " .$names[$comment->userid]."</h6>";
+                                    echo "<h6 class='reply_name'>".$names[$reply->userid]. " Replied of " .$names[$comment->userid]." Comment </h6>";
                                     //echo " Replied <br> ";
                                     //echo "<dt>reply</dt>";
-                                    echo "<h5 style='color:#B71C1C;padding-left:60px;' > $reply->text</h5><br>";
+                                    echo "<h5 class='reply_text' > $reply->text</h5><br>";
                                 }
                             }
-                            echo "<input type='text' id='reply_$comment->id' class='form-control' style='width:350px;' placeholder='Reply ...'>";
+                            echo "<input type='text' id='reply_$comment->id' class='form-control' style='width:300px;' placeholder='Reply ...'>";
                             echo "<input id='id_of_post_forreply' type='hidden' value='$post->postid' />";
                             echo "<input type='button' style='border-radius: 12px;' onclick='functionreply(".$comment->id.")' class='btn btn-danger' value='Reply' /><br><br>";
                         }
                     }
-                    echo "<input type='text' id='comment_$post->postid' class='form-control' style='width:350px;' >";
+                    echo "<input type='text' id='comment_$post->postid' class='form-control' style='width:450px;' >";
                     echo "<input id='id_of_post' type='hidden' value='$post->postid' />";
                     echo "<input type='button' style='border-radius: 12px;' onclick='functionComment(".$post->postid.")' class='commentbutton btn btn-success' value='Comment' /><br><br>";
                 }
@@ -62,12 +61,12 @@
 
             </table>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" align="right">
 
-            <h2 align="center" style = "border-radius:10px 15px;background-color:black;width:97px;height:40px"><a style="color:white;" href="<?php echo site_url('home/logout') ;?>">Logout</a></h2>
-            <h2 align="center" style = "border-radius:10px 20px;background-color:black;color:white;width:170px;height:40px"><a style="color:white;" href="<?php echo site_url('profile'); ?>">Show Profile</a></h2>
-            <h2 align="center" style = "border-radius:10px 20px;background-color:black;color:white;width:90px;height:40px"><a style="color:white;" href="<?php echo site_url('addfriend'); ?>">Users</a></h2>
-            <h2 align="center" style = "border-radius:10px 20px;background-color:black;color:white;width:110px;height:40px"><a style="color:white;" href="<?php echo site_url('friendlist'); ?>">Friends</a></h2>
+            <h2 align="center" class ="btn_logout"><a class="link_white" href="<?php echo site_url('Homeprofile/logout') ;?>">Logout</a></h2>
+            <h2 align="center" class = "btn_showprofile" ><a class="link_white" href="<?php echo site_url('Homeprofile/profile'); ?>">Show Profile</a></h2>
+            <h2 align="center" class="btn_addfriend"><a class="link_white" href="<?php echo site_url('Forfriend/showsuggestion'); ?>">Users</a></h2>
+            <h2 align="center" class="btn_freindlist"><a class="link_white" href="<?php echo site_url('Forfriend/showmyfriend'); ?>">Friends</a></h2>
         </div>
         <!-- </div> -->
     </div>
@@ -85,7 +84,7 @@ function functionPost()
         var posttext = $('#data_of_post').val();
         document.getElementById('data_of_post').value = '';
         $.ajax({
-            url:"<?php echo site_url('home/postData'); ?>",
+            url:"<?php echo site_url('Homeprofile/postData'); ?>",
             method:"POST",
             datatype:"json",
             data:{"posttext":posttext},
@@ -114,7 +113,7 @@ function functionComment(post_id)
         //console.log(post_id);
         //document.getElementById('comment_'post_id'').value = '';
         $.ajax({
-            url:"<?php echo site_url('home/commentData'); ?>",
+            url:"<?php echo site_url('Homeprofile/commentData'); ?>",
             method:"POST",
             datatype:"json",
             data:{"commenttext":commenttext,"post_id":post_id},
@@ -141,7 +140,7 @@ function functionreply(comment_id)
     {
         var post_id = document.getElementById('id_of_post_forreply').value;
         $.ajax({
-            url:"<?php echo site_url('home/replyData'); ?>",
+            url:"<?php echo site_url('Homeprofile/replyData'); ?>",
             method:"POST",
             datatype:"json",
             data:{"replytext":replytext,"comment_id":comment_id, "post_id":post_id},
@@ -156,3 +155,4 @@ function functionreply(comment_id)
 
 
 </script>
+<?php $this->load->view('footer.php'); ?>

@@ -1,23 +1,23 @@
+<?php $this->load->view('header.php'); ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <title>Profile Page</title>
 </head>
-<body style="background-color:grey;">
+<body class="profile_body">
     <?php  $nam = $this->session->userdata('namedisplay'); ?>
     <h3 algin="center">  </h3>
     <div class="container"><br>
 
         <?php  $nam = $this->session->userdata('namedisplay'); ?>
-        <h2 align="center" style = "color:blue;font-family:sansserif;font-style:italic;color:black;"> Welcome <?php echo $nam;?> </h2>
+        <h2 align="center" class="welcome_profile" > Welcome <?php echo $nam;?> </h2>
 
         <div class="panel panel-default">
             <div class="panel-heading">Your Profile</div>
             <div class="panel-body">
-                <form method="post" action="<?php echo site_url('profile/updatedata') ;?>">
+                <form method="post" action="<?php echo site_url('Homeprofile/updatedata') ;?>">
                     <div class="form-group">
                         <label>Your Name</label>
                         <input readonly type="text" name="user_name" class="form-control rdonly" value="<?php echo $name ?>" />
@@ -38,7 +38,7 @@
                         <input type="submit" style="display:none"  value="Save" class="btn btn-info saveb" onclick="savedata()"/>
                         <input type="button"  value="Edit" class="btn btn-info editb" onclick="removereadonly()" />
                         <input type="button" style="display:none" value="Cancel" class="btn btn-danger cancelb" onclick="showreadonly()"/>
-                        <input type="button" class="btn btn-primary back" name="back" value="Back" onclick="parent.location='<?php echo site_url('home') ;?>'"/>
+                        <input type="button" class="btn btn-primary back" name="back" value="Back" onclick="parent.location='<?php echo site_url('Homeprofile/home') ;?>'"/>
                     </div>
                 </form>
                 <div class="container" align="right"><br><br>
@@ -84,7 +84,7 @@ $(document).ready(function(){
         {
 
             $.ajax({
-                url:"<?php echo site_url('profile/ajax_upload'); ?>",
+                url:"<?php echo site_url('Homeprofile/ajax_upload'); ?>",
                 method:"POST",
                 data:new FormData(this),
                 contentType:false,
@@ -100,3 +100,4 @@ $(document).ready(function(){
     });
 });
 </script>
+<?php $this->load->view('footer.php'); ?>
